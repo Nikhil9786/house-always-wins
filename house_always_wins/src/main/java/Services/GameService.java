@@ -10,7 +10,7 @@ public class GameService {
     private int playerCredits = 10;
     private boolean isGameSessionActive = false;
 
-    public ResponseEntity<?> startGame() {
+    public ResponseEntity<String> startGame() {
         try {
             if (!isGameSessionActive) {
                 isGameSessionActive = true;
@@ -24,7 +24,7 @@ public class GameService {
         }
     }
 
-    public ResponseEntity<?> rollSlots() {
+    public ResponseEntity<String> rollSlots() {
         try {
             if (!isGameSessionActive) {
                 return ResponseEntity.badRequest().body("Start a game session first.");
@@ -72,7 +72,7 @@ public class GameService {
         }
     }
 
-    public ResponseEntity<?> cashOut() {
+    public ResponseEntity<String> cashOut() {
         try {
             if (!isGameSessionActive) {
                 return ResponseEntity.badRequest().body("No active game session.");
