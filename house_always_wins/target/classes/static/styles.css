@@ -18,6 +18,7 @@
     justify-content: center;
     align-items: center;
     border-radius: 10px;
+    transition: transform 0.3s ease-in-out;
 }
 
 button {
@@ -33,9 +34,20 @@ button {
 
 button:hover {
     background-color: #2980b9;
+    transform: scale(1.1);
 }
 
 .credits {
     margin-top: 20px;
     font-size: 1.2em;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.block.spinning {
+    animation: spin 1s infinite linear;
+    transform: rotate(0deg);
 }

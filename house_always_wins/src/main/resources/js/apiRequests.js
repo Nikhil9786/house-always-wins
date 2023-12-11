@@ -36,7 +36,7 @@ async function cashOut() {
         return await response.json();
     } catch (error) {
         console.error('Error cashing out:', error.message);
-        throw error;
+        throw error; // Propagate the error to the caller
     }
 }
 

@@ -1,4 +1,4 @@
-package Services;
+package com.example.Services;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -9,6 +9,13 @@ public class GameService {
 
     private int playerCredits = 10;
     private boolean isGameSessionActive = false;
+    private Random random;
+    private static final double reRollProab40To60 = 0.3;
+    private static final double reRollProab60Plus = 0.6;
+
+    public GameService(Random random){
+        this.random = new Random();
+    }
 
     public ResponseEntity<String> startGame() {
         try {
@@ -24,25 +31,25 @@ public class GameService {
         }
     }
 
+    private String performRoll(){
+        String[] symbols = { "C", "L", "O", "W" };
+        return symbols[random.nextInt(symbols.length)];
+
+    }
+
     public ResponseEntity<String> rollSlots() {
         try {
             if (!isGameSessionActive) {
                 return ResponseEntity.badRequest().body("Start a game session first.");
             }
 
-            String[] symbols = { "C", "L", "O", "W" };
-            Random random = new Random();
-            String result = symbols[random.nextInt(symbols.length)];
-
+            String result = performRoll();
             int winReward = 0;
-            if (playerCredits >= 40 && playerCredits < 60) {
-                if (random.nextDouble() <= 0.3) {
-                    result = symbols[random.nextInt(symbols.length)];
-                }
-            } else if (playerCredits >= 60) {
-                if (random.nextDouble() <= 0.6) {
-                    result = symbols[random.nextInt(symbols.length)];
-                }
+
+            double rerollProbability = (playerCredits >= 60) ? reRollProab60Plus : (playerCredits >=40) ? reRollProab40To60 : 0.0;
+            
+            if (random.nextDouble() <= rerollProbability) {
+                result = performRoll();  
             }
 
             switch (result) {
